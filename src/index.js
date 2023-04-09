@@ -10,7 +10,7 @@ const messageHandler = (msg, rinfo) => {
   const msgString = msg.toString();
   const msgObject = JSON.parse(msgString);
   Object.assign(msgObject.nabla, { ip: rinfo.address, port: rinfo.port });
-  console.log(msgObject)
+  // console.log(msgObject)
   // logger.info(`server got: ${msgString} from ${rinfo.address}:${rinfo.port}`);
 
   emit("data", msgObject);

@@ -26,6 +26,7 @@ const envVarsSchema = Joi.object()
     EMAIL_FROM: Joi.string().description('the from field in the emails sent by the app'),
     GOOGLE_CLIENT_ID: Joi.string().description('Google Client ID for Oauth2'),
     GOOGLE_CLIENT_SECRET: Joi.string().description('Google Client Secret for Oauth2'),
+    NABLA_PORT: Joi.number().default(41234),
   })
   .unknown();
 
@@ -71,4 +72,5 @@ module.exports = {
       client_secret: envVars.GOOGLE_CLIENT_SECRET,
     },
   },
+  nablaPort: envVars.NABLA_PORT
 };

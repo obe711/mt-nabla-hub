@@ -1,6 +1,13 @@
 const app = require('./app');
 const httpServer = require('http').createServer(app);
-const io = require('socket.io')(httpServer);
+const io = require('socket.io')(httpServer, {
+  cors: {
+    origin: "http://127.0.0.1:5173",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
+  }
+});
 const logger = require('./config/logger');
 
 io.on('connection', (socket) => {
@@ -21,7 +28,7 @@ io.on('connection', (socket) => {
 });
 
 module.exports.emit = (listener, args) => {
-  io.sockets.emit(listener, ...args);
+  io.sockets.emit(listener, args);
 }
 
 module.exports.server = httpServer;
