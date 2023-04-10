@@ -4,16 +4,26 @@ const logger = require('./config/logger');
 const { server, emit } = require('./io');
 const { startNablaServer } = require("./nabla");
 
+const { serverService } = require("./services");
+
 let nablaServer;
 
-const messageHandler = (msg, rinfo) => {
+const messageHandler = async (msg, rinfo) => {
   const msgString = msg.toString();
   const msgObject = JSON.parse(msgString);
-  Object.assign(msgObject.nabla, { ip: rinfo.address, port: rinfo.port });
-  // console.log(msgObject)
-  // logger.info(`server got: ${msgString} from ${rinfo.address}:${rinfo.port}`);
 
-  emit("data", msgObject);
+  const { provider, hostname } = msgObject;
+
+  const server = await serverService.upsertServer({ ip: rinfo.address, provider, hostname });
+
+  Object.assign(msgObject.nabla, { ip: rinfo.address, port: rinfo.port, id: server._id.toString() });
+  if (msgObject.nabla.nablaId === "system") {
+    return emit(msgObject.nabla.id, msgObject);
+  }
+
+  if (msgObject.nabla.nablaId === "access") {
+    return emit(msgObject.nabla.nablaId, msgObject);
+  }
 
 }
 

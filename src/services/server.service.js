@@ -47,6 +47,12 @@ const getServerByIp = async (ip) => {
   return Server.findOne({ ip });
 };
 
+const upsertServer = (serverBody) => {
+  // const result = await Server.findOneAndUpdate({ ip: serverBody.ip }, serverBody, { upsert: true, useFindAndModify: false });
+  // console.log(result);
+  return Server.findOneAndUpdate({ ip: serverBody.ip }, serverBody, { upsert: true, useFindAndModify: false });
+}
+
 /**
  * Update server by id
  * @param {ObjectId} serverId
@@ -85,6 +91,7 @@ module.exports = {
   queryServers,
   getServerById,
   getServerByIp,
+  upsertServer,
   updateServerById,
   deleteServerById,
 };

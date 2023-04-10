@@ -9,7 +9,7 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('manageServers'), validate(serverValidation.createServer), serverController.createServer)
-  .get(auth('getServers'), validate(serverValidation.getServers), serverController.getServers);
+  .get(validate(serverValidation.getServers), serverController.getServers);
 
 router
   .route('/:serverId')

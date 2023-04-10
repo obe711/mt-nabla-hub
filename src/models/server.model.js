@@ -15,6 +15,11 @@ const serverSchema = mongoose.Schema(
       trim: true,
       unique: true
     },
+    hostname: {
+      type: String,
+      required: true,
+      trim: true
+    }
   },
   {
     timestamps: true,
