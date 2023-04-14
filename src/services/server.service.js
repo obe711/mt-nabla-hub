@@ -51,7 +51,7 @@ const upsertServer = (serverBody) => {
   // const result = await Server.findOneAndUpdate({ ip: serverBody.ip }, serverBody, { upsert: true, useFindAndModify: false });
   // console.log(result);
   return Server.findOneAndUpdate({ ip: serverBody.ip }, serverBody, { upsert: true, useFindAndModify: false });
-}
+};
 
 /**
  * Update server by id

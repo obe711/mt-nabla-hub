@@ -1,12 +1,12 @@
 const dgram = require('node:dgram');
-const logger = require("./config/logger");
-const config = require("./config/config");
+const logger = require('./config/logger');
+const config = require('./config/config');
 
 function createServer() {
   const server = dgram.createSocket('udp4');
 
-  server.on("connect", () => {
-    logger.info("conneced");
+  server.on('connect', () => {
+    logger.info('conneced');
   });
 
   server.on('listening', () => {
@@ -18,8 +18,8 @@ function createServer() {
 }
 
 function startNablaServer(messageHandler) {
-  logger.info("starting server");
-  const server = createServer()
+  logger.info('starting server');
+  const server = createServer();
   server.bind(config.nablaPort);
 
   server.on('error', (e) => {
@@ -37,5 +37,5 @@ function startNablaServer(messageHandler) {
 }
 
 module.exports = {
-  startNablaServer
-}
+  startNablaServer,
+};

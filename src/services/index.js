@@ -5,4 +5,5 @@ module.exports.userService = require('./user.service');
 module.exports.cookieService = require('./cookie.service');
 module.exports.appleService = require('./apple.service');
 module.exports.googleService = require('./google.service');
-module.exports.serverService = require("./server.service");
+module.exports.serverService = require('./server.service');
+module.exports.siteService = require('./site.service');

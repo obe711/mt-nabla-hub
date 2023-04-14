@@ -72,5 +72,5 @@ module.exports = {
       client_secret: envVars.GOOGLE_CLIENT_SECRET,
     },
   },
-  nablaPort: envVars.NABLA_PORT
+  nablaPort: envVars.NABLA_PORT,
 };

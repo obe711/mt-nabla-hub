@@ -1,25 +1,24 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 
-
 const serverSchema = mongoose.Schema(
   {
     provider: {
       type: String,
       required: true,
-      enum: ["aws", "digitalocean", "azure"],
+      enum: ['aws', 'digitalocean', 'azure'],
     },
     ip: {
       type: String,
       required: true,
       trim: true,
-      unique: true
+      unique: true,
     },
     hostname: {
       type: String,
       required: true,
-      trim: true
-    }
+      trim: true,
+    },
   },
   {
     timestamps: true,
@@ -48,7 +47,6 @@ serverSchema.statics.isIpTaken = async function (ip, excludeServerId) {
   const server = await this.findOne({ ip, _id: { $ne: excludeServerId } });
   return !!server;
 };
-
 
 /**
  * @typedef Server
