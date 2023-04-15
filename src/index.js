@@ -4,7 +4,7 @@ const logger = require('./config/logger');
 const { server, emit } = require('./io');
 const { startNablaServer } = require('./nabla');
 
-const { serverService } = require('./services');
+const { serverService, siteService } = require('./services');
 
 let nablaServer;
 
@@ -13,6 +13,27 @@ const messageHandler = async (msg, rinfo) => {
   const msgObject = JSON.parse(msgString);
   logger.info(`${msgString}`);
 
+  // PM2 Logs
+  if (msgObject.nabla.nablaId === 'pm2') {
+
+    console.log(msgObject.message.split(" - "));
+    const logMessageArray = msgObject.message.split(" - ");
+    const upSertedSite = await siteService.upsertSite({ siteName: msgObject.nabla.origin, status: "2" });
+
+    if (msgObject.type === "out") {
+      const apiLogMessage = { id: `api-${upSertedSite._id.toString()}`, siteName: upSertedSite.siteName, message: logMessageArray[1], req: logMessageArray[2] };
+      return emit(apiLogMessage.id, apiLogMessage);
+    }
+
+    if (msgObject.type === "error") {
+      const apiLogMessage = { id: upSertedSite._id.toString(), siteName: upSertedSite.siteName, message: logMessageArray[1], req: logMessageArray[2] };
+      return emit("api-error", apiLogMessage);
+    }
+
+    return;
+  }
+
+  // Access or System
   const { provider, hostname } = msgObject;
 
   const upSertedServer = await serverService.upsertServer({ ip: rinfo.address, provider, hostname });
