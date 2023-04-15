@@ -28,6 +28,8 @@ const envVarsSchema = Joi.object()
     GOOGLE_CLIENT_SECRET: Joi.string().description('Google Client Secret for Oauth2'),
     NABLA_PORT: Joi.number().default(41234),
     NABLA_KEY: Joi.string().description('Nabla API key for getting site stats'),
+    NABLA_HUB_IP: Joi.string().required(),
+    NABLA_PROVIDER: Joi.string().valid('digitalocean', 'aws', 'azure').required(),
   })
   .unknown();
 
@@ -75,4 +77,6 @@ module.exports = {
   },
   nablaPort: envVars.NABLA_PORT,
   nablaApiKey: envVars.NABLA_KEY,
+  nablaHubIp: envVars.NABLA_HUB_IP,
+  nablaProvider: envVars.NABLA_PROVIDER
 };

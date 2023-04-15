@@ -3,7 +3,8 @@ const config = require('./config/config');
 const logger = require('./config/logger');
 const { server, emit } = require('./io');
 const { startNablaServer, startSiteCheck } = require('./nabla');
-
+const { NablaSystem } = require("../nabla-hub");
+const SYS_STAT_UPDATE_EVENT = "data"
 const { serverService, siteService } = require('./services');
 
 let nablaServer;
@@ -16,7 +17,7 @@ const messageHandler = async (msg, rinfo) => {
   // PM2 Logs
   if (msgObject.nabla.nablaId === 'pm2') {
     const logMessageArray = msgObject.message.split(' - ');
-    const upSertedSite = await siteService.upsertSite({ siteName: msgObject.nabla.origin, status: '2' });
+    const upSertedSite = await siteService.upsertSite({ siteName: msgObject.nabla.origin, status: '1' });
 
     if (msgObject.type === 'out') {
       const apiLogMessageId = `apiLog:${upSertedSite._id.toString()}`;
@@ -57,6 +58,13 @@ const messageHandler = async (msg, rinfo) => {
   }
 };
 
+const systemUpdateMessageHandler = async (msg) => {
+  Object.assign(msg, { provider: config.nablaProvider });
+  const upSertedServer = await serverService.upsertServer({ ip: config.nablaHubIp, provider: msg.provider, hostname: msg.hostname });
+  const socketId = upSertedServer._id.toString();
+  return emit(socketId, msg)
+}
+
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   logger.info('Connected to MongoDB');
   server.listen(config.port, async () => {
@@ -64,6 +72,10 @@ mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
 
     // Start NABLA service here
     nablaServer = await startNablaServer(messageHandler);
+
+    // Start system monitor
+    const nablaSystem = new NablaSystem({ logger });
+    nablaSystem.on(SYS_STAT_UPDATE_EVENT, systemUpdateMessageHandler);
 
     startSiteCheck();
   });
