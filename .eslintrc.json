@@ -24,6 +24,8 @@
     "consistent-return": "off",
     "jest/expect-expect": "off",
     "security/detect-object-injection": "off",
-    "import/order": "off"
+    "import/order": "off",
+    "no-plusplus": "off",
+    "no-await-in-loop": "off"
   }
 }

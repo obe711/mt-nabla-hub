@@ -1,10 +1,9 @@
 const dgram = require('node:dgram');
 const logger = require('./config/logger');
 const config = require('./config/config');
-const { siteService, nablaService } = require("./services");
-const asyncForEach = require("./utils/asyncForEach");
+const { siteService, nablaService } = require('./services');
+const asyncForEach = require('./utils/asyncForEach');
 const { emit } = require('./io');
-
 
 function createServer() {
   const server = dgram.createSocket('udp4');
@@ -41,7 +40,6 @@ function startNablaServer(messageHandler) {
 }
 
 function startSiteCheck() {
-
   setTimeout(async () => {
     const sites = await siteService.getAllSites();
     if (!sites) return;
@@ -49,21 +47,20 @@ function startSiteCheck() {
     await asyncForEach(sites, async (site) => {
       try {
         const { data, durationInMs } = await nablaService.getSiteStats(site.siteName);
-        Object.assign(data, { id: site.siteName, status: "2", duration: durationInMs });
+        Object.assign(data, { id: site.siteName, status: '2', duration: durationInMs });
         return emit(data.id, data);
       } catch {
         logger.error(`SITE OFF LINE - ${site.siteName}`);
-        Object.assign(site, { status: "1" });
+        Object.assign(site, { status: '1' });
         return emit(site.siteName, site);
       }
-    })
+    });
 
     startSiteCheck();
-  }, 1000)
+  }, 1000);
 }
-
 
 module.exports = {
   startNablaServer,
-  startSiteCheck
+  startSiteCheck,
 };

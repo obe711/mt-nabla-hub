@@ -74,5 +74,5 @@ module.exports = {
     },
   },
   nablaPort: envVars.NABLA_PORT,
-  nablaApiKey: envVars.NABLA_KEY
+  nablaApiKey: envVars.NABLA_KEY,
 };

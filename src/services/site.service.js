@@ -31,7 +31,7 @@ const querySites = async (filter, options, search) => {
 
 const getAllSites = async () => {
   return Site.find({});
-}
+};
 
 /**
  * Get site by id
