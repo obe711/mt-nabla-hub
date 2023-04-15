@@ -29,6 +29,10 @@ const querySites = async (filter, options, search) => {
   return sites;
 };
 
+const getAllSites = async () => {
+  return Site.find({});
+}
+
 /**
  * Get site by id
  * @param {ObjectId} id
@@ -87,6 +91,7 @@ const deleteSiteById = async (siteId) => {
 module.exports = {
   createSite,
   querySites,
+  getAllSites,
   getSiteById,
   getSiteBySiteName,
   upsertSite,

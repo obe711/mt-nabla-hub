@@ -7,3 +7,4 @@ module.exports.appleService = require('./apple.service');
 module.exports.googleService = require('./google.service');
 module.exports.serverService = require('./server.service');
 module.exports.siteService = require('./site.service');
+module.exports.nablaService = require("./nabla.service")
