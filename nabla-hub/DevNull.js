@@ -1,8 +1,7 @@
-
-
 class DevNull {
-  info() { };
-  error() { };
-};
+  info() {}
+
+  error() {}
+}
 
 module.exports = DevNull;

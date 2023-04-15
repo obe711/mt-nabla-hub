@@ -78,5 +78,5 @@ module.exports = {
   nablaPort: envVars.NABLA_PORT,
   nablaApiKey: envVars.NABLA_KEY,
   nablaHubIp: envVars.NABLA_HUB_IP,
-  nablaProvider: envVars.NABLA_PROVIDER
+  nablaProvider: envVars.NABLA_PROVIDER,
 };

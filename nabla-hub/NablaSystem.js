@@ -1,12 +1,12 @@
 const { EventEmitter } = require('node:events');
-const os = require("node:os");
-const DevNull = require("./DevNull");
-const checkDiskSpace = require("./libs/disk");
-const checkCpuUsage = require("./libs/cpu");
+const os = require('node:os');
+const DevNull = require('./DevNull');
+const checkDiskSpace = require('./libs/disk');
+const checkCpuUsage = require('./libs/cpu');
 
 const DEFAULT_UPDATE_INTERVAL = 990;
 
-const SYS_STAT_UPDATE_EVENT = "data"
+const SYS_STAT_UPDATE_EVENT = 'data';
 const GB = 1073741824;
 /**
  * System status event emmiter
@@ -22,15 +22,14 @@ class NablaSystem extends EventEmitter {
     }, this.interval);
 
     p_interval.unref();
-  };
-
+  }
 
   /**
    * Emit system data
    * @private
    */
   async send() {
-    const diskData = await checkDiskSpace("/");
+    const diskData = await checkDiskSpace('/');
     const hostname = os.hostname();
     const uptime = Math.round(os.uptime());
     const totalMemory = os.totalmem();
@@ -39,11 +38,19 @@ class NablaSystem extends EventEmitter {
     const memoryUsage = usedMemory / totalMemory;
     const cpus = checkCpuUsage();
     const loadavg = os.loadavg();
-    this.emit(SYS_STAT_UPDATE_EVENT, { disk: diskData, hostname, uptime, memoryUsage: memoryUsage * 100, memory: Math.round(totalMemory / GB), cpus, loadavg });
+    this.emit(SYS_STAT_UPDATE_EVENT, {
+      disk: diskData,
+      hostname,
+      uptime,
+      memoryUsage: memoryUsage * 100,
+      memory: Math.round(totalMemory / GB),
+      cpus,
+      loadavg,
+    });
   }
 }
 
 module.exports = {
   NablaSystem,
-  SYS_STAT_UPDATE_EVENT
-} 
+  SYS_STAT_UPDATE_EVENT,
+};
