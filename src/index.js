@@ -21,7 +21,9 @@ const messageHandler = async (msg, rinfo) => {
     if (msgObject?.level === "error") return;
     await nablaLogService.createNablaLog(msgObject);
     const recentRecords = await nablaLogService.queryNablaLogs(msgObject?.level, { siteName: msgObject?.siteName }, { sortBy: "_id:desc" }, null);
-
+    if (!msgObject?.siteName) return;
+    //console.log("apiLog", msgObject.siteName)
+    await siteService.upsertSite({ siteName: msgObject.siteName, status: '1' });
     return emit(`${msgObject?.siteName}-${msgObject?.level}`, recentRecords?.results);
   }
 
@@ -39,7 +41,7 @@ const messageHandler = async (msg, rinfo) => {
 
   // PM2 Logs
   if (msgObject?.nabla?.nablaId === 'pm2') {
-    // console.log(msgObject.message);
+    console.log(msgObject.message);
     const logMessageArray = msgObject.message.split(' - ');
     const upSertedSite = await siteService.upsertSite({ siteName: msgObject.nabla.origin, status: '1' });
 
@@ -96,6 +98,10 @@ const systemUpdateMessageHandler = async (msg) => {
     provider: msg.provider,
     hostname: msg.hostname,
   });
+  if (!upSertedServer) {
+    console.error("No upSertedServer");
+    return;
+  }
   const socketId = upSertedServer._id.toString();
   return emit(socketId, msg);
 };

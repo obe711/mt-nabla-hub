@@ -15,7 +15,14 @@ const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 
+const clientIP = require('./middlewares/clientIP');
+
+const nablaRoute = require('./nabla/nabla.route');
+
 const app = express();
+
+// Nabla
+app.use('/nabla', nablaRoute);
 
 if (config.env !== 'test') {
   app.use(morgan.successHandler);
@@ -48,6 +55,8 @@ app.options('*', cors());
 // jwt authentication
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
+
+app.use(clientIP);
 
 // limit repeated failed requests to auth endpoints
 if (config.env === 'production') {

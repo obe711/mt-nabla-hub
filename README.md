@@ -2,17 +2,11 @@
 
 [![Build Status](https://app.travis-ci.com/obe711/node-server-boilerplate.svg?branch=main)](https://app.travis-ci.com/obe711/node-server-boilerplate)
 
-A boilerplate/starter project for quickly building RESTful APIs using Node.js, Express, and Mongoose.
+Hub Server for the Nabla com system
 
-By running a single command, you will get a production-ready Node.js app installed and fully configured on your machine. The app comes with many built-in features, such as authentication using JWT, request validation, unit and integration tests, continuous integration, API documentation, pagination, etc. For more details, check the features list below.
 
-## Quick Start
+https://www.cyberciti.biz/faq/how-to-open-firewall-port-on-ubuntu-linux-12-04-14-04-lts/
 
-To create a project, simply run:
-
-```bash
-npx create-node-rest-server <project-name>
-```
 
 ## Manual Installation
 
@@ -21,8 +15,8 @@ If you would still prefer to do the installation manually, follow these steps:
 Clone the repo:
 
 ```bash
-git clone --depth 1 https://github.com/obe711/node-server-boilerplate.git
-cd node-server-boilerplate
+git clone --depth 1 https://github.com/obe711/mt-nabla-hub.git
+cd mt-nabla-hub
 npx rimraf ./.git
 ```
 
