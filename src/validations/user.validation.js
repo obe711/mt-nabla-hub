@@ -43,6 +43,17 @@ const updateUser = {
     .min(1),
 };
 
+const updateUserApnToken = {
+  params: Joi.object().keys({
+    userId: Joi.required().custom(objectId),
+  }),
+  body: Joi.object()
+    .keys({
+      apn: Joi.string(),
+    })
+    .min(1),
+}
+
 const deleteUser = {
   params: Joi.object().keys({
     userId: Joi.string().custom(objectId),
@@ -55,4 +66,5 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
+  updateUserApnToken
 };

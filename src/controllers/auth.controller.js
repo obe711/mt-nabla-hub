@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const config = require('../config/config');
+const ApiError = require('../utils/ApiError');
 const {
   authService,
   userService,
@@ -36,10 +37,24 @@ const loginGoogle = catchAsync(async (req, res) => {
 
 // loginApple
 const loginApple = catchAsync(async (req, res) => {
-  const user = await appleService.verifyOAuthToken(req.body.token);
+  const { token, firstName, lastName, code } = req.body;
+  const user = await appleService.verifyOAuthToken(token, firstName, lastName);
+  try {
+    const appleAuthTokens = await appleService.generateAppleAuthTokens(code);
+    cookieService.setAppleTokenCookie(res, appleAuthTokens.refresh_token);
+  } catch {
+    //logger.info('Apple token cookie not set');
+  }
+
+  if (user.role !== "admin") {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Must be admin');
+  }
+
+  await tokenService.clearUserTokens(user.id);
   const tokens = await tokenService.generateAuthTokens(user);
   cookieService.setTokenCookie(res, tokens.refresh);
-  res.send({ user, tokens });
+  //devLogService.logServerAction(user._id.toString(), req.clientIP, 'login', 'apple');
+  res.send({ user: { id: user._id, neededTos: user.neededTos, role: user.role }, tokens });
 });
 
 const logout = catchAsync(async (req, res) => {
@@ -49,7 +64,8 @@ const logout = catchAsync(async (req, res) => {
 });
 
 const refreshTokens = catchAsync(async (req, res) => {
-  const { user, tokens } = await authService.refreshAuth(req.cookies[config.jwt.refreshCookieName] || req.body.refreshToken);
+  console.log(req.body.refreshToken, req.cookies[config.jwt.refreshCookieName])
+  const { user, tokens } = await authService.refreshAuth(req.body.refreshToken || req.cookies[config.jwt.refreshCookieName]);
   cookieService.setTokenCookie(res, tokens.refresh);
   res.send({ user, tokens });
 });

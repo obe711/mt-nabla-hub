@@ -3,8 +3,13 @@ const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const serverRoute = require('./server.route');
 const siteRoute = require('./site.route');
+const nablaErrorRoute = require("./nablaErrors.route");
+const nablaLogRoute = require("./nablaLogs.route")
+const accessLogRoute = require("./accessLogs.route")
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
+
+const devRoute = require("./dev.route");
 
 const router = express.Router();
 
@@ -25,6 +30,22 @@ const defaultRoutes = [
     path: '/sites',
     route: siteRoute,
   },
+  {
+    path: "/nablaErrors",
+    route: nablaErrorRoute
+  },
+  {
+    path: "/nablaLogs",
+    route: nablaLogRoute
+  },
+  {
+    path: "/accessLogs",
+    route: accessLogRoute
+  },
+  {
+    path: "/dev",
+    route: devRoute
+  }
 ];
 
 const devRoutes = [

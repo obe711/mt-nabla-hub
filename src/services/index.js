@@ -8,3 +8,7 @@ module.exports.googleService = require('./google.service');
 module.exports.serverService = require('./server.service');
 module.exports.siteService = require('./site.service');
 module.exports.nablaService = require('./nabla.service');
+module.exports.nablaErrorService = require("./nablaError.service");
+module.exports.nablaLogService = require("./nablaLog.service");
+module.exports.accessLogService = require("./accessLog.service")
+module.exports.apnService = require("./apn.service");
