@@ -1,5 +1,6 @@
 const winston = require('winston');
 const config = require('./config');
+const NablaTransport = require("../nabla/NablaTransport");
 
 const enumerateErrorFormat = winston.format((info) => {
   if (info instanceof Error) {
@@ -20,6 +21,12 @@ const logger = winston.createLogger({
     new winston.transports.Console({
       stderrLevels: ['error'],
     }),
+    new NablaTransport({
+      hostname: config.nablaHostname,
+      siteName: config.nablaSiteName,
+      port: config.nablaPort,
+      //format: winston.format.json()
+    })
   ],
 });
 

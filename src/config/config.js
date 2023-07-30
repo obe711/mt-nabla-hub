@@ -34,6 +34,8 @@ const envVarsSchema = Joi.object()
     NABLA_KEY: Joi.string().description('Nabla API key for getting site stats'),
     NABLA_HUB_IP: Joi.string().required(),
     NABLA_PROVIDER: Joi.string().valid('digitalocean', 'aws', 'azure').required(),
+    NABLA_HUB_HOSTNAME: Joi.string().description('Nabla server hostname').required(),
+    NABLA_HUB_SITE_NAME: Joi.string().description('Nabla server site name').required(),
   })
   .unknown();
 
@@ -87,4 +89,6 @@ module.exports = {
   nablaApiKey: envVars.NABLA_KEY,
   nablaHubIp: envVars.NABLA_HUB_IP,
   nablaProvider: envVars.NABLA_PROVIDER,
+  nablaHostname: envVars.NABLA_HUB_HOSTNAME,
+  nablaSiteName: envVars.NABLA_HUB_SITE_NAME
 };
