@@ -26,6 +26,10 @@ const envVarsSchema = Joi.object()
     EMAIL_FROM: Joi.string().description('the from field in the emails sent by the app'),
     GOOGLE_CLIENT_ID: Joi.string().description('Google Client ID for Oauth2'),
     GOOGLE_CLIENT_SECRET: Joi.string().description('Google Client Secret for Oauth2'),
+    APPLE_KEYID: Joi.string().description('Apple key ID for Sign In with Apple'),
+    APPLE_CLIENT_ID: Joi.string().description('Apple bundle ID'),
+    APPLE_TEAM_ID: Joi.string().description('Apple developer team ID'),
+    APPLE_PRIVATE_KEY_FILE: Joi.string().description('File name of key file in ./.keys directory'),
     NABLA_PORT: Joi.number().default(41234),
     NABLA_KEY: Joi.string().description('Nabla API key for getting site stats'),
     NABLA_HUB_IP: Joi.string().required(),
@@ -45,9 +49,7 @@ module.exports = {
   mongoose: {
     url: envVars.MONGODB_URL + (envVars.NODE_ENV === 'test' ? '-test' : ''),
     options: {
-      useCreateIndex: true,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+
     },
   },
   jwt: {
@@ -73,6 +75,12 @@ module.exports = {
     google: {
       client_id: envVars.GOOGLE_CLIENT_ID,
       client_secret: envVars.GOOGLE_CLIENT_SECRET,
+    },
+    apple: {
+      keyId: envVars.APPLE_KEYID,
+      client_id: envVars.APPLE_CLIENT_ID,
+      teamId: envVars.APPLE_TEAM_ID,
+      key_filename: envVars.APPLE_PRIVATE_KEY_FILE,
     },
   },
   nablaPort: envVars.NABLA_PORT,

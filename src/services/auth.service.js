@@ -47,7 +47,8 @@ const refreshAuth = async (refreshToken) => {
     if (!user) {
       throw new Error();
     }
-    await refreshTokenDoc.remove();
+    await tokenService.deleteTokenById(refreshTokenDoc._id);
+    await tokenService.clearUserTokens(refreshTokenDoc.user);
     const tokens = await tokenService.generateAuthTokens(user);
     return { user, tokens };
   } catch (error) {

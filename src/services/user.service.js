@@ -80,6 +80,10 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+const getAllAdmins = () => {
+  return User.find({ role: "admin" });
+}
+
 module.exports = {
   createUser,
   queryUsers,
@@ -87,4 +91,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  getAllAdmins
 };

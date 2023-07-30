@@ -14,6 +14,14 @@ const setTokenCookie = (res, tokenData) => {
   res.cookie(config.jwt.refreshCookieName, token, cookieRefreshOptions);
 };
 
+const setAppleTokenCookie = (res, tokenData) => {
+  const cookieAppleOptions = {
+    httpOnly: true,
+    expires: new Date(Date.now() + 3600 * 1000),
+  };
+  res.cookie('x-a-id', tokenData, cookieAppleOptions);
+};
+
 /**
  * Expire Token Cookie
  * @param {Response<object>} res
@@ -29,4 +37,5 @@ const expireTokenCookie = (res) => {
 module.exports = {
   setTokenCookie,
   expireTokenCookie,
+  setAppleTokenCookie
 };

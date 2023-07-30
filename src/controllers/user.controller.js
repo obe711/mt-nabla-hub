@@ -31,6 +31,15 @@ const updateUser = catchAsync(async (req, res) => {
   res.send(user);
 });
 
+const updateUserApnToken = catchAsync(async (req, res) => {
+  if (req.params.userId !== req.user.id) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid User');
+  }
+  console.log(req.body);
+  const user = await userService.updateUserById(req.user.id, req.body);
+  res.send(user);
+});
+
 const deleteUser = catchAsync(async (req, res) => {
   await userService.deleteUserById(req.params.userId);
   res.status(httpStatus.NO_CONTENT).send();
@@ -42,4 +51,5 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
+  updateUserApnToken
 };

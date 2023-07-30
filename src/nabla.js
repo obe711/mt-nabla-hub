@@ -30,7 +30,7 @@ function startNablaServer(messageHandler) {
       logger.error('Address in use, retrying...');
       setTimeout(() => {
         startNablaServer();
-      }, 1000);
+      }, 5000);
     }
   });
 
@@ -57,7 +57,7 @@ function startSiteCheck() {
     });
 
     startSiteCheck();
-  }, 1000);
+  }, 5000);
 }
 
 module.exports = {

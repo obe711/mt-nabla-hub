@@ -56,6 +56,10 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    apn: {
+      type: String,
+      private: true,
+    }
   },
   {
     timestamps: true,
