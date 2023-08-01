@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
+const config = require('../config/config');
 
 const infoLogSchema = mongoose.Schema(
   {
@@ -14,7 +15,11 @@ const infoLogSchema = mongoose.Schema(
     log: {
       type: String,
       trim: true
-    }
+    },
+    expireAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   {
     timestamps: true,
@@ -24,6 +29,8 @@ const infoLogSchema = mongoose.Schema(
 // add plugin that converts mongoose to json
 // infoLogSchema.plugin(toJSON);
 infoLogSchema.plugin(paginate);
+
+infoLogSchema.index({ expireAt: 1 }, { expires: config.mongoose.expireAfterSec });
 
 /**
  * Return paths to text search in paginate plugin
