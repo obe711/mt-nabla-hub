@@ -15,7 +15,8 @@ const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
 
-const clientIP = require('./middlewares/clientIP');
+// const clientIP = require('./middlewares/clientIP');
+const ipLoc = require('ip-location-middleware');
 
 const nablaRoute = require('./nabla/nabla.route');
 
@@ -56,7 +57,8 @@ app.options('*', cors());
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
 
-app.use(clientIP);
+// app.use(clientIP);
+app.use(ipLoc(1234567890));
 
 // limit repeated failed requests to auth endpoints
 if (config.env === 'production') {
